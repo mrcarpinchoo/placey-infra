@@ -4,6 +4,8 @@
       "command": "docker",
       "args": [
         "run",
+        "--user",
+        "1000:1000",
         "--rm",
         "--interactive",
         "--name",
@@ -11,7 +13,7 @@
         "--env",
         "FASTMCP_LOG_LEVEL=ERROR",
         "--volume",
-        "/root/placey-infra:/.aws-diagrams",
+        "./.aws-diagrams:/tmp/generated-diagrams",
         "awslabs/aws-diagram-mcp-server:latest"
       ],
       "env": {},
