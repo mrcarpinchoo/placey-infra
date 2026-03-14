@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "awslabs.aws-diagram-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "--interactive",
+        "--name",
+        "mcp-server-aws-diagram",
+        "--env",
+        "FASTMCP_LOG_LEVEL=ERROR",
+        "--volume",
+        "/root/placey-infra:/.aws-diagrams",
+        "awslabs/aws-diagram-mcp-server:latest"
+      ],
+      "env": {},
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
