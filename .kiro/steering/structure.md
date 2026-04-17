@@ -8,13 +8,51 @@ Infrastructure as Code for all cloud resources.
 
 ```
 placey-infra/
-  modules/          # Reusable Terraform modules
-  environments/     # Per-environment configs (dev, prod)
+  environments/                   # Per-environment configurations
+    dev/
+      main.tf                     # Core resources for dev
+      variables.tf                # Dev-specific variable declarations
+      provider.tf                 # Provider configuration for dev
+      outputs.tf                  # Output values for dev resources
+      dev.tfvars                  # Dev-specific variable values
+  modules/                        # Centralized reusable Terraform modules
+    network/
+      main.tf                     # VPC, subnets, VPC endpoints
+      variables.tf                # Input variables for network settings
+      outputs.tf                  # Outputs for VPC, subnet IDs
+    compute/
+      main.tf                     # Lambda functions, API Gateway
+      variables.tf                # Input variables for compute settings
+      outputs.tf                  # Outputs for function ARNs, API URLs
+    data/
+      main.tf                     # RDS, RDS Proxy, Secrets Manager
+      variables.tf                # Input variables for data settings
+      outputs.tf                  # Outputs for DB endpoints, secret ARNs
+    security/
+      main.tf                     # Security groups, IAM roles
+      variables.tf                # Input variables for security settings
+      outputs.tf                  # Outputs for SG IDs, role ARNs
+    frontend/
+      main.tf                     # CloudFront, S3 bucket
+      variables.tf                # Input variables for frontend settings
+      outputs.tf                  # Outputs for CloudFront URL, bucket name
+    monitoring/
+      main.tf                     # CloudWatch, CloudWatch Alarms
+      variables.tf                # Input variables for monitoring settings
+      outputs.tf                  # Outputs for alarm ARNs
 ```
+
+Note: `staging/` and `prod/` environment folders will be added later.
+
+## Module Conventions
+
+- Each module has `main.tf`, `variables.tf`, and `outputs.tf`
+- Modules are composed in environment-level `main.tf`
+- Modules should be self-contained and reusable across environments
 
 ## `placey-backend`
 
-Core API and geospatial logic.
+Core API and geospatial logic (Lambda functions).
 
 ```
 placey-backend/

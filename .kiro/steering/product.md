@@ -20,6 +20,7 @@ Users provide their geographic coordinates and Placey returns nearby places sort
 - Category filtering
 - Distance-sorted results
 - Place details: name, category, location, rating
+- User reviews (no authentication required for MVP)
 
 ## Example API
 
@@ -33,4 +34,4 @@ This is the `placey-infra` repository — responsible for provisioning and manag
 
 ## Project Context
 
-Educational MVP built for a System Design course. Focus areas: geospatial data handling, scalable architecture, efficient location queries, distributed system design.
+Educational MVP built for a System Design course. Also serves as a portfolio project. Focus areas: geospatial data handling, scalable serverless architecture, efficient location queries, AWS best practices.
