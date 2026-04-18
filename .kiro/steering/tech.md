@@ -17,7 +17,7 @@ This is the `placey-infra` repository. It uses Terraform and AWS to provision al
 ### Backend (Regional, us-east-1)
 
 - API Gateway — HTTP entry point for the REST API
-- Lambda Functions — serverless compute, one function per API endpoint, deployed in a private subnet within the VPC. Number of functions scales with the number of routes. Runtime: Node.js 24.x. Runtime: Node.js 24.x.
+- Lambda Functions — serverless compute, one function per API endpoint, deployed in a private subnet within the VPC. Number of functions scales with the number of routes. Runtime: Node.js 24.x.
 - RDS Proxy — connection pooling between Lambda and PostgreSQL
 - RDS PostgreSQL + PostGIS — primary database for places and reviews with geospatial queries
 
@@ -40,6 +40,15 @@ This is the `placey-infra` repository. It uses Terraform and AWS to provision al
 ### CI/CD (post-MVP, if time permits)
 
 - CodePipeline + CodeBuild — automated Lambda deployment pipeline
+
+## Development Environment
+
+- AWS CLI and Terraform run via Docker Compose (no local installation needed)
+- AWS credentials loaded from `.env` file (see `.env.example`)
+- **Never read `.env` — it contains sensitive AWS credentials**
+- Run containers: `docker compose up -d`
+- Drop into Terraform shell: `docker exec -it <terraform-container> sh`
+- Drop into AWS CLI shell: `docker exec -it <aws-cli-container> sh`
 
 ## Terraform State
 
@@ -65,6 +74,7 @@ terraform {
 
 ## API Endpoints
 
+- `GET /places?lat=&lon=&radius=&category=` — proximity search
 - `GET /places/{placeId}` — place details
 - `GET /places/{placeId}/reviews` — reviews for a place
 - `POST /places/{placeId}/reviews` — submit a review (no auth for MVP)
