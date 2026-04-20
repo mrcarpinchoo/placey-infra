@@ -1,10 +1,10 @@
+# Docs
+docs/architecture-diagrams/**/*.png
+
 # Environment variables
 .env
 .env.*
 !.env.example
-
-# Image diagrams
-.aws-diagrams/**/*.png
 
 # Terraform
 *.tfstate

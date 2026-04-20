@@ -13,7 +13,7 @@
         "--env",
         "FASTMCP_LOG_LEVEL=ERROR",
         "--volume",
-        "./.aws-diagrams:/tmp/generated-diagrams",
+        "./docs/architecture-diagrams:/tmp/generated-diagrams",
         "awslabs/aws-diagram-mcp-server:latest"
       ],
       "env": {},
