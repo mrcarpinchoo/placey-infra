@@ -20,6 +20,8 @@ Each repo is independently deployable. No shared code between repos.
 
 ## AWS Architecture
 
+![Architecture Diagram](docs/architecture-diagrams/architecture-diagram.png)
+
 - **Frontend:** CloudFront, S3 (static React app).
 - **Backend:** API Gateway, Lambda (Node.js 24.x), RDS Proxy, PostgreSQL 16 with PostGIS.
 - **Networking:** VPC with private subnets, VPC Endpoint for Secrets Manager.
