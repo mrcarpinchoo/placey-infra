@@ -2,8 +2,8 @@
   "arrowParens": "avoid",
   "bracketSameLine": false,
   "bracketSpacing": true,
-  "embeddedLanguageFormatting": "auto",
-  "experimentalTernaries": false,
+  "embeddedLanguageFormatting": "off",
+  "experimentalTernaries": true,
   "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
   "printWidth": 80,
@@ -13,14 +13,13 @@
   "semi": true,
   "singleAttributePerLine": true,
   "singleQuote": false,
-  "tabWidth": 2,
+  "tabWidth": 4,
   "trailingComma": "none",
-  "overrides": [
-    {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "options": {
-        "tabWidth": 2
+  "overrides":
+    [
+      {
+        "files": ["*.js", "*.jsx", "*.ts", "*.tsx", "*.json", ".prettierrc"],
+        "options": { "tabWidth": 2 }
       }
-    }
-  ]
+    ]
 }
