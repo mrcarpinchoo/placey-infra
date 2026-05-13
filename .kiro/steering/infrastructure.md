@@ -6,25 +6,29 @@ Full spec: `docs/infrastructure-spec.md`
 
 - Region: us-east-1
 - VPC CIDR: 10.0.0.0/16
-- Private app subnets: 10.0.1.0/24 (AZ-a), 10.0.2.0/24 (AZ-b)
-- Private data subnets: 10.0.3.0/24 (AZ-a), 10.0.4.0/24 (AZ-b)
+- Private app subnet: 10.0.1.0/24 (AZ-a) - Lambda
+- Private data subnets: 10.0.3.0/24 (AZ-a), 10.0.4.0/24 (AZ-b) - RDS, RDS Proxy
 
 ## Security Groups
 
-- `sg-lambda` → outbound 5432 to `sg-rds-proxy`, outbound 443 to VPC Endpoint
+- `sg-lambda` → outbound 5432 to `sg-rds-proxy`, outbound 443 to `sg-vpc-endpoint`
 - `sg-rds-proxy` → inbound 5432 from `sg-lambda`, outbound 5432 to `sg-rds`
 - `sg-rds` → inbound 5432 from `sg-rds-proxy`
+- `sg-vpc-endpoint` → inbound 443 from `sg-lambda`
 
 ## Resources
 
 - Lambda: Node.js 24.x, 256 MB, 30s timeout, VPC-attached
-- API Gateway: HTTP API (v2), CORS enabled
-- RDS: PostgreSQL 16, db.t3.micro, PostGIS, 20 GB gp3
-- RDS Proxy: PostgreSQL engine family, Secrets Manager auth
-- Secrets Manager: `placey/db-credentials`, VPC Endpoint access
-- S3: private, versioned, OAC with CloudFront
-- CloudFront: OAC origin, SPA error routing, PriceClass_100
+- API Gateway: HTTP API (v2), CORS enabled (GET, OPTIONS)
+- RDS: PostgreSQL 16, db.t3.micro, PostGIS, 20 GB gp3, managed credentials
+- RDS Proxy: PostgreSQL engine family, Secrets Manager auth, TLS required
+- Secrets Manager: auto-created by RDS (`rds!db-...`), accessed via VPC Endpoint
+- S3: private, versioned, Account Regional namespace, OAC with CloudFront
+- CloudFront: OAC origin, SPA error routing, pay-as-you-go
 
 ## Tagging
 
-All resources: Project=placey, Environment=dev, ManagedBy=terraform, Team=team-4, Name=guillermo.romero@iteso.mx
+Required on RDS instances, Lambda functions, and S3 buckets:
+
+- `Team` = `team-4`
+- `Owner` = `guillermo.romero@iteso.mx`

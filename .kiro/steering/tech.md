@@ -11,44 +11,36 @@ This is the `placey-infra` repository. It uses Terraform and AWS to provision al
 
 ### Frontend (Global)
 
-- CloudFront — CDN for serving the React app globally
-- S3 — hosts the static React build
+- CloudFront - CDN for serving the React app globally
+- S3 - hosts the static React build (Account Regional namespace)
 
 ### Backend (Regional, us-east-1)
 
-- API Gateway — HTTP entry point for the REST API
-- Lambda Functions — serverless compute, one function per API endpoint, deployed in a private subnet within the VPC. Number of functions scales with the number of routes. Runtime: Node.js 24.x.
-- RDS Proxy — connection pooling between Lambda and PostgreSQL
-- RDS PostgreSQL + PostGIS — primary database for places and reviews with geospatial queries
+- API Gateway - HTTP API (v2), entry point for the REST API
+- Lambda Functions - Node.js 24.x, one function per route, deployed in a private VPC subnet
+- RDS Proxy - connection pooling between Lambda and PostgreSQL
+- RDS PostgreSQL 16 + PostGIS - primary database, managed credentials via Secrets Manager
 
 ### Networking
 
-- VPC with private subnets (application tier and database tier)
-- VPC Endpoint for Secrets Manager (private access from Lambda)
+- VPC with private subnets (app tier and data tier)
+- VPC Endpoint for Secrets Manager (private access from Lambda, no internet required)
 
 ### Security
 
-- Secrets Manager — stores DB credentials, accessed by Lambda via VPC Endpoint
-- Security Groups — network-level access control between components
-- IAM Roles — least-privilege access for Lambda
+- Secrets Manager - DB credentials auto-managed by RDS
+- Security Groups - network-level access control between components
+- IAM Roles - least-privilege access for Lambda and RDS Proxy
 
-### Observability
+### CI/CD (post-MVP)
 
-- CloudWatch — logs and metrics from API Gateway, Lambda, RDS
-- CloudWatch Alarms — alerting on error rates and latency
-
-### CI/CD (post-MVP, if time permits)
-
-- CodePipeline + CodeBuild — automated Lambda deployment pipeline
+- CodePipeline + CodeBuild - automated deployment pipeline
 
 ## Development Environment
 
-- AWS CLI and Terraform run via Docker Compose (no local installation needed)
-- AWS credentials loaded from `.env` file (see `.env.example`)
-- **Never read `.env` — it contains sensitive AWS credentials**
-- Run containers: `docker compose up -d`
-- Drop into Terraform shell: `docker exec -it <terraform-container> sh`
-- Drop into AWS CLI shell: `docker exec -it <aws-cli-container> sh`
+- AWS CLI and Terraform installed locally
+- AWS credentials loaded from `.env` (see `.env.example`) - export before running Terraform
+- **Never read `.env` - it contains sensitive AWS credentials**
 
 ## Terraform State
 
@@ -71,15 +63,3 @@ terraform {
   }
 }
 ```
-
-## API Endpoints
-
-- `GET /places?lat=&lon=&radius=&category=` — proximity search
-- `GET /places/{placeId}` — place details
-- `GET /places/{placeId}/reviews` — reviews for a place
-- `POST /places/{placeId}/reviews` — submit a review (no auth for MVP)
-
-## Other Repos (for reference)
-
-- `placey-backend`: Lambda functions, REST API, geospatial queries, PostgreSQL + PostGIS
-- `placey-frontend`: React, OpenStreetMap or Mapbox

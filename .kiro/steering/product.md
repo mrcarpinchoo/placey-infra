@@ -14,23 +14,9 @@ Users provide their geographic coordinates and Placey returns nearby places sort
 4. Outdoor Recreation (parks, beaches, hiking trails)
 5. Social / Leisure Venues (nightclubs, karaoke bars, comedy clubs)
 
-## Key Features
-
-- Proximity search by lat/lon + radius
-- Category filtering
-- Distance-sorted results
-- Place details: name, category, location, rating
-- User reviews (no authentication required for MVP)
-
-## Example API
-
-`GET /places?lat=20.67&lon=-103.34&radius=2000`
-
-Returns places sorted by distance with name, category, and distance fields.
-
 ## This Repository
 
-This is the `placey-infra` repository — responsible for provisioning and managing all cloud infrastructure for the Placey system.
+This is the `placey-infra` repository - responsible for provisioning and managing all AWS cloud infrastructure for the Placey system.
 
 ## Project Context
 
