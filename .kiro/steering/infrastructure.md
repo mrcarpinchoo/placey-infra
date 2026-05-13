@@ -18,7 +18,7 @@ Full spec: `docs/infrastructure-spec.md`
 
 ## Resources
 
-- Lambda: Node.js 24.x, 256 MB, 30s timeout, VPC-attached
+- Lambda: Node.js 22.x, 256 MB, 30s timeout, VPC-attached
 - API Gateway: HTTP API (v2), CORS enabled (GET, OPTIONS)
 - RDS: PostgreSQL 16, db.t3.micro, PostGIS, 20 GB gp3, managed credentials
 - RDS Proxy: PostgreSQL engine family, Secrets Manager auth, TLS required

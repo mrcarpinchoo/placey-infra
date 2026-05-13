@@ -17,7 +17,7 @@ This is the `placey-infra` repository. It uses Terraform and AWS to provision al
 ### Backend (Regional, us-east-1)
 
 - API Gateway - HTTP API (v2), entry point for the REST API
-- Lambda Functions - Node.js 24.x, one function per route, deployed in a private VPC subnet
+- Lambda Functions - Node.js 22.x, one function per route, deployed in a private VPC subnet
 - RDS Proxy - connection pooling between Lambda and PostgreSQL
 - RDS PostgreSQL 16 + PostGIS - primary database, managed credentials via Secrets Manager
 
@@ -50,7 +50,7 @@ This is the `placey-infra` repository. It uses Terraform and AWS to provision al
 ## Terraform Version Constraints
 
 - Terraform: `~> 1.12`
-- AWS Provider: `~> 5.0`
+- AWS Provider: `~> 6.44`
 
 ```hcl
 terraform {

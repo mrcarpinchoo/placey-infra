@@ -236,7 +236,7 @@ The DB credentials secret is **automatically created and managed by RDS** when `
 
 | Setting        | Value                              |
 | -------------- | ---------------------------------- |
-| Runtime        | Node.js 24.x                       |
+| Runtime        | Node.js 22.x                       |
 | Memory         | 256 MB                             |
 | Timeout        | 30 seconds                         |
 | Execution role | `placey-dev-lambda-role`           |

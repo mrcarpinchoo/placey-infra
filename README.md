@@ -32,23 +32,58 @@ All resources are provisioned in `us-east-1`.
 ## Documentation
 
 - [`docs/infrastructure-spec.md`](docs/infrastructure-spec.md): full infrastructure specification
-- [`docs/resource-naming-conventions.md`](docs/resource-naming-conventions.md): AWS resource naming conventions
 - [`docs/aws-console-guide.md`](docs/aws-console-guide.md): step-by-step AWS Console provisioning guide
 
-## Development
+## Deployment
 
-AWS credentials are loaded from `.env` (see `.env.example`). Never commit `.env`.
+This deployment uses Terraform to provision the full infrastructure. For a manual alternative, see the [AWS Console Guide](docs/aws-console-guide.md) for a step-by-step walkthrough through the AWS Console.
+
+### Prerequisites
+
+- [Terraform](https://developer.hashicorp.com/terraform/install) `~> 1.12`
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) configured with credentials
+
+### Deploy
+
+1. Initialize Terraform:
+
+    ```sh
+    terraform -chdir=environments/dev init
+    ```
+
+2. Preview the changes:
+
+    ```sh
+    terraform -chdir=environments/dev plan -var-file=dev.tfvars
+    ```
+
+3. Apply:
+
+    ```sh
+    terraform -chdir=environments/dev apply -var-file=dev.tfvars
+    ```
+
+To view outputs at any time:
 
 ```sh
-# Export credentials
-export $(cat .env | xargs)
-
-# Plan
-terraform -chdir=environments/dev plan -var-file=dev.tfvars
-
-# Apply
-terraform -chdir=environments/dev apply -var-file=dev.tfvars
+terraform -chdir=environments/dev output
 ```
+
+### Deploy Lambda Code
+
+Once the infrastructure is provisioned, deploy the Lambda functions from the [`placey-backend`](https://github.com/mrcarpinchoo/placey-backend) repository. See the backend deploy guide for instructions.
+
+### Cleanup
+
+To tear down all infrastructure:
+
+```sh
+terraform -chdir=environments/dev destroy -var-file=dev.tfvars
+```
+
+### State
+
+Terraform state is stored locally at `environments/dev/terraform.tfstate`. This file is gitignored; do not commit it.
 
 ## Authors
 

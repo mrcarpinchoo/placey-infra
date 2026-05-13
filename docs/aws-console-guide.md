@@ -17,7 +17,11 @@ Before the team can provision resources, the captain must create the developer r
 #### Create the developer role
 
 ```sh
-ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text --no-cli-pager)
+ACCOUNT_ID=$(
+  aws sts get-caller-identity \
+    --query "Account"
+    --output text
+)
 
 aws iam create-role \
   --role-name placey-dev-developer-role \
@@ -81,7 +85,7 @@ Run these commands while authenticated with the Administrator account.
 ACCOUNT_ID=$(
   aws sts get-caller-identity \
     --query "Account" \
-    --output text \
+    --output text
 )
 ```
 
@@ -618,8 +622,7 @@ To retrieve the secret ARN:
 aws rds describe-db-instances \
   --db-instance-identifier placey-dev-postgres-db01 \
   --query "DBInstances[0].MasterUserSecret.SecretArn" \
-  --output text \
-  --no-cli-pager
+  --output text
 ```
 
 To retrieve the proxy endpoint:
@@ -628,8 +631,7 @@ To retrieve the proxy endpoint:
 aws rds describe-db-proxies \
   --db-proxy-name placey-dev-rds-proxy \
   --query "DBProxies[0].Endpoint" \
-  --output text \
-  --no-cli-pager
+  --output text
 ```
 
 ## Step 10 - Create the API Gateway
@@ -814,16 +816,17 @@ Go to **CloudFront** > **Distributions** > **Create distribution**.
 To tear down all resources and avoid ongoing charges, delete them in this order:
 
 1. Delete the CloudFront distribution (disable first, wait for deployment, then delete)
-2. Empty and delete the S3 bucket
-3. Delete the API Gateway (`placey-dev-api`)
-4. Delete the Lambda functions (all four)
-5. Delete the RDS Proxy (`placey-dev-rds-proxy`) — wait for deletion to complete
-6. Delete the RDS instance (`placey-dev-postgres-db01`) — skip final snapshot
-7. Delete the DB subnet group (`placey-dev-subnet-group-postgres`)
-8. Delete the Secrets Manager secret (`placey/dev/db-credentials`)
-9. Delete the VPC Endpoint (`placey-dev-vpce-secretsmanager`)
-10. Delete the IAM roles (`placey-dev-lambda-role`, `placey-dev-rds-proxy-role`)
-11. Delete the Security Groups (all four `placey-dev-sg-*`)
-12. Delete the Route Tables (`placey-dev-rt-app`, `placey-dev-rt-data`)
-13. Delete the Subnets (all three)
-14. Delete the VPC (`placey-dev-vpc`)
+2. Delete the CloudFront Origin Access Control (`placey-dev-oac`) — go to **CloudFront** > **Origin access** > select `placey-dev-oac` > **Delete**
+3. Empty and delete the S3 bucket
+4. Delete the API Gateway (`placey-dev-api`)
+5. Delete the Lambda functions (all four)
+6. Delete the RDS Proxy (`placey-dev-rds-proxy`) — wait for deletion to complete
+7. Delete the RDS instance (`placey-dev-postgres-db01`) — skip final snapshot
+8. Delete the DB subnet group (`placey-dev-subnet-group-postgres`)
+9. Delete the Secrets Manager secret — go to **Secrets Manager** and delete the `rds!db-...` secret created by RDS
+10. Delete the VPC Endpoint (`placey-dev-vpce-secretsmanager`)
+11. Delete the IAM roles (`placey-dev-lambda-role`, `placey-dev-rds-proxy-role`)
+12. Delete the Security Groups (all four `placey-dev-sg-*`)
+13. Delete the Route Tables (`placey-dev-rt-app`, `placey-dev-rt-data`)
+14. Delete the Subnets (all three)
+15. Delete the VPC (`placey-dev-vpc`)
